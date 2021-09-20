@@ -28,7 +28,7 @@ export const getStatementsInfo = (params) => {
   return async (dispatch) => {
     dispatch(getStatementsInfoStart());
     const response = await fetch(
-      `/api/dashboard/statements-info`,
+      `https://vq-server2.herokuapp.com/api/dashboard/statements-info`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,

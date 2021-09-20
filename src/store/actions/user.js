@@ -37,7 +37,7 @@ import {
 //     return async (dispatch) => {
 //       dispatch(getAllUsersStart());
 //       const response = await fetch(
-//         `/api/statements?sortBy=${sortBy}&order=${order}&limit=${limit}&filter=${filter}&page=${currentPage}`
+//         `https://vq-server2.herokuapp.com/api/statements?sortBy=${sortBy}&order=${order}&limit=${limit}&filter=${filter}&page=${currentPage}`
 //       );
 
 //       const data = await response.json();
@@ -74,7 +74,7 @@ const getUserByIdFailure = (error) => {
 export const getUserById = (id) => {
   return async (dispatch) => {
     dispatch(getUserByIdStart());
-    const response = await fetch(`/api/users/${id}`, {
+    const response = await fetch(`https://vq-server2.herokuapp.com/api/users/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -118,7 +118,7 @@ export const getAllUsers = (params) => {
     dispatch(getAllUsersStart());
 
     const response = await fetch(
-      `/api/users?sortBy=${sortBy}&order=${order}&limit=${limit}&filter=${filter}&page=${currentPage}`,
+      `https://vq-server2.herokuapp.com/api/users?sortBy=${sortBy}&order=${order}&limit=${limit}&filter=${filter}&page=${currentPage}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -161,7 +161,7 @@ export const getLeaders = () => {
   return async (dispatch) => {
     dispatch(getLeadersStart());
 
-    const response = await fetch(`/api/users/leaders`);
+    const response = await fetch(`https://vq-server2.herokuapp.com/api/users/leaders`);
 
     const data = await response.json();
     if (!response.ok) {

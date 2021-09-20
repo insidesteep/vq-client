@@ -26,12 +26,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  
-  "proxy": {
-    "/api": {
-        "target": "https://vq-server2.herokuapp.com"
-    }
-},
   "eslintConfig": {
     "extends": [
       "react-app",

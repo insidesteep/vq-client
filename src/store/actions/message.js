@@ -35,7 +35,7 @@ const sendMessageFailure = (error) => {
 export const sendMessage = ({ to, statementId, message }) => {
   return async (dispatch) => {
     dispatch(sendMessageStart());
-    const response = await fetch(`/api/messages/send`, {
+    const response = await fetch(`https://vq-server2.herokuapp.com/api/messages/send`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -81,7 +81,7 @@ const getMessagesFailure = (error) => {
 export const getMessages = () => {
   return async (dispatch) => {
     dispatch(getMessagesStart());
-    const response = await fetch(`/api/messages`, {
+    const response = await fetch(`https://vq-server2.herokuapp.com/api/messages`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -123,7 +123,7 @@ const getMyMessageByIdFailure = (error) => {
 export const getMyMessageById = (id) => {
   return async (dispatch) => {
     dispatch(getMyMessageByIdStart());
-    const response = await fetch(`/api/messages/${id}`, {
+    const response = await fetch(`https://vq-server2.herokuapp.com/api/messages/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },

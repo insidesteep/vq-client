@@ -170,7 +170,7 @@ export const createStatement = ({ leader, theme, message, files }) => {
     }
 
     const response = await fetch(
-      "/api/statements/create",
+      "https://vq-server2.herokuapp.com/api/statements/create",
       {
         method: "POST",
         headers: {

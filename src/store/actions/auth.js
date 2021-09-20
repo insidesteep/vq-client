@@ -44,7 +44,7 @@ export const auth = () => {
   return async (dispatch) => {
     dispatch(authStart());
 
-    const response = await fetch(`/api/auth`, {
+    const response = await fetch(`https://vq-server2.herokuapp.com/api/auth`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -91,7 +91,7 @@ export const login = (email, password) => {
     dispatch(loginStart());
 
     const response = await fetch(
-      `/api/auth/login`,
+      `https://vq-server2.herokuapp.com/api/auth/login`,
       requestOptions
     );
 
@@ -146,7 +146,7 @@ export const unlockProfile = (password) => {
     dispatch(unlockProfileStart());
 
     const response = await fetch(
-      `/api/auth/unlock-profile`,
+      `https://vq-server2.herokuapp.com/api/auth/unlock-profile`,
       requestOptions
     );
 
@@ -192,7 +192,7 @@ export const lockProfile = () => {
     dispatch(lockProfileStart());
 
     const response = await fetch(
-      `/api/auth/lock-profile`,
+      `https://vq-server2.herokuapp.com/api/auth/lock-profile`,
       requestOptions
     );
 
@@ -249,7 +249,7 @@ export const verifySMS = (fields) => {
     dispatch(verifySMSStart());
 
     const response = await fetch(
-      `/api/sms/verify`,
+      `https://vq-server2.herokuapp.com/api/sms/verify`,
       requestOptions
     );
 
@@ -286,7 +286,7 @@ export const sendSmsCode = (smsCode) => {
   return async (dispatch) => {
     dispatch(sendSmsCodeStart());
 
-    const response = await fetch("/api/sms/send-code", {
+    const response = await fetch("https://vq-server2.herokuapp.com/api/sms/send-code", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("smsToken")}`,
