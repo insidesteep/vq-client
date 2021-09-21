@@ -51,7 +51,7 @@ export const getAllStatements = (params) => {
   return async (dispatch) => {
     dispatch(getAllStatementsStart());
     const response = await fetch(
-      `/api/statements?sortBy=${sortBy}&order=${order}&limit=${limit}&filter=${filter}&page=${currentPage}`,
+      `https://vq-server2.herokuapp.com/api/statements?sortBy=${sortBy}&order=${order}&limit=${limit}&filter=${filter}&page=${currentPage}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -96,7 +96,7 @@ const getStatementByIdFailure = (error) => {
 export const getStatementById = (id) => {
   return async (dispatch) => {
     dispatch(getStatementByIdStart());
-    const response = await fetch(`/api/statements/${id}`, {
+    const response = await fetch(`https://vq-server2.herokuapp.com/api/statements/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -215,7 +215,7 @@ export const getMyStatementById = (id) => {
     dispatch(getMyStatementByIdStart());
 
     const response = await fetch(
-      `/api/statements/my/${id}`,
+      `https://vq-server2.herokuapp.com/api/statements/my/${id}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -258,7 +258,7 @@ export const getMyStatements = (id) => {
   return async (dispatch) => {
     dispatch(getMyStatementsStart());
 
-    const response = await fetch(`/api/statements/my`, {
+    const response = await fetch(`https://vq-server2.herokuapp.com/api/statements/my`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
         "Content-Type": "application/json",
