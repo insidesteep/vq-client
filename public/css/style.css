@@ -48,6 +48,10 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   background-image: linear-gradient(230deg, #0e4cfd, #6a8eff);
 }
 
+.icons .icon-none i[class^="mdi"] {
+  display: none;
+}
+
 .gradient-5 {
   background-image: linear-gradient(to right, #f83600 0%, #f9d423 100%);
 }
@@ -17254,6 +17258,15 @@ table.dataTable thead .sorting::after {
     height: 3rem;
     margin-right: 0.5rem;
   }
+
+  .icons .icon-none i[class^="fa"] {
+    display: none;
+  }
+
+  .icons .icon-none i[class^="mdi"] {
+    display: block;
+  }
+
   .icons .log-user span {
     display: none;
   }
@@ -21445,8 +21458,7 @@ html[dir="rtl"]
   position: fixed;
   left: 50%;
   top: 50%;
-  margin-left: -256px;
-  margin-top: -200px;
+  transform: translate(-50%, -50%);
   overflow: hidden;
   display: none;
   z-index: 99999;
@@ -21532,7 +21544,7 @@ html[dir="rtl"]
 }
 
 .toast-info {
-  background-color: #2F96B4;
+  background-color: #2f96b4;
   transition: opacity 0.5s linear;
 }
 #toast-container > div {
@@ -21559,8 +21571,6 @@ html[dir="rtl"]
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   filter: alpha(opacity=80);
 }
-
-
 
 .toast-progress {
   position: absolute;
@@ -21605,4 +21615,3 @@ button.toast-close-button {
   -ms-word-wrap: break-word;
   word-wrap: break-word;
 }
-

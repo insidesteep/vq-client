@@ -148,7 +148,7 @@ const StatementDetail = () => {
                     <div className="read-content">
                       <div className="media pt-5">
                         <div className="media-body">
-                          <Link to={`/users/${statement.owner._id}`}>
+                          <Link to={`/dashboard/users/${statement.owner._id}`}>
                             <h5 className="m-b-3">{statement.owner.name}</h5>
                           </Link>
                           <small className="text-muted">

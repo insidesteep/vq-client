@@ -196,14 +196,15 @@ const UserInfo = () => {
                               ))}
                           </tbody>
                         </table>
-                        <Pagination
-                          pageCount={page.pageCount}
-                          page={page.pageNum}
-                          setPageNum={handlePage}
-                        />
                       </div>
                     </div>
                   </div>
+
+                  <Pagination
+                    pageCount={page.pageCount}
+                    page={page.pageNum}
+                    setPageNum={handlePage}
+                  />
                 </div>
               </>
             )}

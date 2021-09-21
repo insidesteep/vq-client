@@ -35,7 +35,7 @@ const Modal = ({
         style={{ display: isShow ? "block" : "none", opacity: isShow ? 1 : 0 }}
       ></div>
       <div
-        className={`sweet-alert ${
+        className={`col-10 sweet-alert ${
           isShow ? "showSweetAlert visible" : "hideSweetAlert"
         }`}
         style={{ display: isShow ? "block" : "none", opacity: isShow ? 1 : 0 }}

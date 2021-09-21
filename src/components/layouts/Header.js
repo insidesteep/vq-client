@@ -68,7 +68,7 @@ const Header = () => {
               <li className="icons dropdown">
                 {user.role === "leader" ? (
                   <>
-                    <a href="#!" data-toggle="dropdown">
+                    <a href="#!" data-toggle="dropdown" className="log-user">
                       <i className={`mdi mdi-bell-outline`}></i>
                       {notificationData.length > 0 && (
                         <span className="badge badge-pill gradient-2">
@@ -119,7 +119,7 @@ const Header = () => {
                 ) : (
                   <>
                     {" "}
-                    <a href="#!" data-toggle="dropdown">
+                    <a href="#!" data-toggle="dropdown" className="log-user">
                       <i className={`mdi mdi-email-outline`}></i>
                       {msgNotificationData.length > 0 && (
                         <span className="badge badge-pill gradient-2">
@@ -170,8 +170,13 @@ const Header = () => {
                 )}
               </li>
             )}
-            <li className="icons dropdown d-none d-md-flex">
-              <a href="#!" className="log-user" data-toggle="dropdown">
+            <li className="icons dropdown d-md-flex">
+              <a
+                href="#!"
+                className="log-user icon-none"
+                data-toggle="dropdown"
+              >
+                <i className="mdi mdi-earth"></i>
                 <span>Русский</span>
                 <i className="fa fa-angle-down f-s-14" aria-hidden="true"></i>
               </a>
@@ -194,7 +199,12 @@ const Header = () => {
             <li className="icons dropdown">
               {isAuth ? (
                 <>
-                  <a href="#!" className="log-user" data-toggle="dropdown">
+                  <a
+                    href="#!"
+                    className="log-user icon-none"
+                    data-toggle="dropdown"
+                  >
+                    <i className="mdi mdi-account"></i>
                     <span className="mr-1">{user.name}</span>
                     <i
                       className="fa fa-angle-down f-s-14"
@@ -229,10 +239,11 @@ const Header = () => {
               ) : (
                 <Link
                   to="/login"
-                  className="log-user"
+                  className="log-user icon-none"
                   data-toggle="dropdown"
                   href="#!"
                 >
+                  <i className="mdi mdi-login"></i>
                   <span className="mr-1">Войти</span>
                   {/* <i className="fa fa-angle-down f-s-14" aria-hidden="true"></i> */}
                 </Link>

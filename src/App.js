@@ -34,7 +34,7 @@ import MainLayout from "./components/layouts/MainLayout";
 import Main from "./components/layouts/Main";
 import Toast from "./components/Toast";
 
-let socket = io("http://localhost:5000");
+let socket = io("https://vq-server2.herokuapp.com");
 
 function App() {
   const { user, isAuth, loading } = useSelector((state) => state.auth);
