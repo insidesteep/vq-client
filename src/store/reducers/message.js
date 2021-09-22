@@ -18,6 +18,7 @@ const initialState = {
   message: null,
   loading: false,
   error: "",
+  success: false,
 };
 
 const messageReducer = (state = initialState, action) => {
@@ -48,6 +49,7 @@ const messageReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: "",
+        success: true,
       };
 
     case SEND_MESSAGE_FAILURE:
@@ -55,6 +57,7 @@ const messageReducer = (state = initialState, action) => {
         ...state,
         error: payload,
         loading: false,
+        success: true,
       };
 
     case GET_MESSAGES_START:
@@ -62,6 +65,7 @@ const messageReducer = (state = initialState, action) => {
         ...state,
         loading: true,
         error: "",
+        success: false,
       };
     case GET_MESSAGES_SUCCESS:
       return {

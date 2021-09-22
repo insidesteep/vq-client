@@ -14,6 +14,7 @@ import MainLayout from "../components/layouts/MainLayout";
 import Spinner from "../components/layouts/Spinner";
 import Modal from "../components/layouts/Modal";
 import File from "../components/File";
+import Toast from "../components/Toast";
 import { sendMessage } from "../store/actions/message";
 import { messageSendSchema } from "../utils/validationSchema";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -47,6 +48,7 @@ const StatementDetail = () => {
   const { statement, loading } = useSelector((state) => state.statement);
   const messageState = useSelector((state) => state.message);
 
+  console.log(messageState);
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -73,7 +75,7 @@ const StatementDetail = () => {
       <Sidebar />
       <Main>
         <div className="container-fluid mt-3">
-          {!statement || loading ? (
+          {!statement || loading || messageState.loading ? (
             <Spinner />
           ) : (
             <div className="row">
@@ -192,6 +194,13 @@ const StatementDetail = () => {
                 </div>
               </div>
             </div>
+          )}
+          {!messageState.loading && messageState.success && (
+            <Toast
+              type="success"
+              title="Создание ответа"
+              message="Ответ на заявление успешно отправлено"
+            />
           )}
         </div>
       </Main>

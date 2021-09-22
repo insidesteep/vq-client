@@ -1,7 +1,8 @@
 import moment from "moment";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, Route, Switch, useHistory } from "react-router-dom";
+import { Link, Route, Switch, useHistory, useLocation } from "react-router-dom";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Footer from "../components/layouts/Footer";
 import Header from "../components/layouts/Header";
@@ -22,6 +23,7 @@ const UserProfile = () => {
   const { user } = useSelector((state) => state.auth);
   const history = useHistory();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   return (
     <MainLayout>
@@ -45,32 +47,48 @@ const UserProfile = () => {
             <div className="col">
               <div className="card">
                 <div className="card-body">
-                  <UserNav />
-                  <div className="email-right-box">
-                    <Switch>
-                      <Route
-                        path="/profile/new-statement"
-                        component={CreateStatementForm}
-                      />
-                      <Route
-                        exact
-                        path="/profile/inbox"
-                        component={UserInbox}
-                      />
-                      <Route
-                        path="/profile/inbox/:id"
-                        component={UserViewMessage}
-                      />
-                      <Route
-                        exact
-                        path="/profile"
-                        render={(props) => <UserSent {...props} user={user} />}
-                      />
-                      <Route
-                        path="/profile/:id"
-                        render={(props) => <SentDetail {...props} />}
-                      />
-                    </Switch>
+                  <div className="row">
+                    <div class="col-12 col-md-2 mb-4">
+                      <UserNav />
+                    </div>
+                    <div class="col-12 col-md-10 mb-4">
+                      <div className="email-right-box">
+                        <TransitionGroup>
+                          <CSSTransition
+                            timeout={300}
+                            classNames="right-box-transition"
+                            key={location.key}
+                          >
+                            <Switch location={location}>
+                              <Route
+                                path="/profile/new-statement"
+                                component={CreateStatementForm}
+                              />
+                              <Route
+                                exact
+                                path="/profile/inbox"
+                                component={UserInbox}
+                              />
+                              <Route
+                                path="/profile/inbox/:id"
+                                component={UserViewMessage}
+                              />
+                              <Route
+                                exact
+                                path="/profile"
+                                render={(props) => (
+                                  <UserSent {...props} user={user} />
+                                )}
+                              />
+                              <Route
+                                path="/profile/:id"
+                                render={(props) => <SentDetail {...props} />}
+                              />
+                            </Switch>
+                          </CSSTransition>
+                        </TransitionGroup>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

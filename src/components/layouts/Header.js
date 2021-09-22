@@ -96,7 +96,7 @@ const Header = () => {
                           {notificationData.map(
                             ({ _id, name, theme, message, owner }) => (
                               <li className="notification-unread" key={_id}>
-                                <Link to={`/statements/${_id}`}>
+                                <Link to={`/dashboard/statements/${_id}`}>
                                   <div className="notification-content">
                                     <div className="notification-heading">
                                       {owner && owner.name}

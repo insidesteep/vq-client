@@ -13669,16 +13669,6 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   min-width: 450px;
 }
 
-.email-left-box {
-  width: 240px;
-  float: left;
-  padding: 0 20px 20px 10px;
-}
-
-.email-right-box {
-  margin-left: 250px;
-}
-
 .email-list {
   display: block;
   padding-left: 0;
@@ -17265,6 +17255,10 @@ table.dataTable thead .sorting::after {
 
   .icons .icon-none i[class^="mdi"] {
     display: block;
+  }
+
+  .icons .log-user span.badge {
+    display: inline;
   }
 
   .icons .log-user span {
@@ -21614,4 +21608,34 @@ button.toast-close-button {
 .toast-message {
   -ms-word-wrap: break-word;
   word-wrap: break-word;
+}
+
+.right-box-transition-enter {
+  transform: scale(0.3);
+  opacity: 0;
+  z-index: 1;
+}
+
+.right-box-transition-enter.right-box-transition-enter-active {
+  opacity: 1;
+
+  transform: scale(1);
+  transition: all 0.3s ease-in;
+}
+
+.right-box-transition-enter.right-box-transition-enter-active {
+  opacity: 1;
+
+  transform: scale(1);
+  transition: all 0.3s ease-in;
+}
+
+.right-box-transition-exit {
+  opacity: 1; transform: scale(1);
+}
+.right-box-transition.right-box-transition-exit-active {
+  transform: scale(0.3);
+  opacity: 0;
+  
+  transition: all 0.3s ease-in;
 }

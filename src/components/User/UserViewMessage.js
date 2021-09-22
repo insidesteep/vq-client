@@ -22,6 +22,7 @@ const UserViewMessage = () => {
     <div className="read-content">
       <div className="media pt-5">
         <div className="media-body">
+          <h4 className="mb-3">Сообщение</h4>
           <h5 className="m-b-3">{message.owner?.name}</h5>
           <small className="text-muted">{message.owner?.email}</small>
         </div>

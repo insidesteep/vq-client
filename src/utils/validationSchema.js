@@ -73,7 +73,7 @@ export const createStatementSchema = yup
       .string()
       .matches(
         /^[+]?998(9[012345789]|6[125679]|7[01234569])[0-9]{7}$/,
-        "Номер телефона не правиьный"
+        "Номер телефона не правильный"
       )
       .required("Введите номер телефона"),
     email: yup
@@ -87,13 +87,16 @@ export const createStatementSchema = yup
   })
   .concat(createStatementFormSchema);
 
+yup.addMethod(yup.string, "integer", function () {
+  return this.matches(/^\d+$/, "Только цифры");
+});
+
 export const smsVerifySchema = yup.object().shape({
   smsCode: yup
     .string()
-    .matches(
-      /^[+]?998(9[012345789]|6[125679]|7[01234569])[0-9]{7}$/,
-      "Номер телефона не правиьный"
-    )
+    .integer()
+    .min(5, "Код должен содержать 5 цифр")
+    .max(5, "Код должен содержать 5 цифр")
     .required("Введите номер телефона"),
 });
 

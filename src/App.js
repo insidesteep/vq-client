@@ -111,6 +111,7 @@ function App() {
         <LeaderPrivateRoute exact path="/dashboard/users" component={Users} />
         <LeaderPrivateRoute path="/dashboard/users/:id" component={UserInfo} />
         <LeaderPrivateRoute path="/dashboard/lock" component={LockScreen} />
+        <Redirect to="/" />
       </Switch>
     </Router>
   );

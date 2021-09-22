@@ -40,6 +40,7 @@ const SentDetail = () => {
     <div className="read-content">
       <div className="media pt-5">
         <div className="media-body">
+          <h4 className="mb-3">Моё заявление</h4>
           <h5 className="m-b-3">{statement.owner.name}</h5>
           <small className="text-muted">
             Кому: {statement.responsiblePerson?.email} |{" "}

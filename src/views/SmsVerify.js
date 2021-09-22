@@ -1,26 +1,21 @@
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
-import { createStatement } from "../store/actions/statement";
-import { smsVerifySchema } from "../utils/validationSchema";
+import { sendSmsCode } from "../store/actions/auth";
 import { useState, useEffect } from "react";
 import moment from "moment";
 import Alert from "../components/Alert";
 
 const SMSVerify = () => {
   const [smsCode, setSmsCode] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [diff, setDiff] = useState("");
-  const {
-    smsVerify: { smsToken, recipient },
-    error,
-  } = useSelector((state) => state.auth);
+  const { smsVerify, error } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (smsToken) {
-      const decoded = JSON.parse(atob(smsToken.split(".")[1]));
+    if (smsVerify.smsToken) {
+      const decoded = JSON.parse(atob(smsVerify.smsToken.split(".")[1]));
 
       setInterval(() => {
         const diff = decoded.exp * 1000 - Date.now();
@@ -28,24 +23,33 @@ const SMSVerify = () => {
       }, 1000);
     }
   }, []);
-  // const {
-  //   register,
-  //   formState: { errors },
-  //   handleSubmit,
-  //   reset,
-  // } = useForm({
-  //   mode: "onChange",
-  //   resolver: yupResolver(smsVerifySchema),
-  // });
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    dispatch(createStatement(smsCode));
+
+    if (smsCode.length < 5) {
+      setErrorMessage("Код должен состоять только из 5-цифр");
+    } else {
+      dispatch(sendSmsCode(smsCode, smsVerify.smsToken));
+      setErrorMessage("");
+    }
   };
 
-  if (!smsToken) {
+  if (!smsVerify.smsToken) {
     return <Redirect to="/" />;
   }
+
+  const handleChange = (e) => {
+    const value = e.target.value.replace(/[^\d]/g, "");
+
+    if (value.length < 5) {
+      setErrorMessage("Код должен состоять только из 5-цифр");
+    } else {
+      setErrorMessage("");
+    }
+
+    setSmsCode(value);
+  };
 
   return (
     <div
@@ -63,7 +67,7 @@ const SMSVerify = () => {
             <div className="row">
               <div className="col d-flex flex-column align-items-center mb-3">
                 <h3 className="title mb-5">Для продолжения подтвердите код</h3>
-                <p>Мы отправили СМС на номер +{recipient}</p>
+                <p>Мы отправили СМС на номер +{smsVerify.recipient}</p>
               </div>
             </div>
             <form className="form-valide" onSubmit={onSubmitHandler}>
@@ -71,6 +75,7 @@ const SMSVerify = () => {
                 <div className="col d-flex flex-column align-items-center">
                   <div className="form-group row is-invalid d-flex flex-column align-items-center">
                     <input
+                      className="form-control px-2"
                       style={{
                         fontSize: "20px",
                         letterSpacing: "8px",
@@ -78,12 +83,22 @@ const SMSVerify = () => {
                       }}
                       type="tel"
                       id="name"
-                      className="form-control px-2"
-                      name="name"
+                      name="smsCode"
+                      minLength="5"
+                      maxLength="5"
+                      onChange={handleChange}
                       value={smsCode}
-                      onChange={(e) => setSmsCode(e.target.value)}
                     />
-                    <div className="invalid-feedback animated fadeInDown"></div>
+                    <div
+                      style={{ display: "block" }}
+                      className={
+                        errorMessage
+                          ? "invalid-feedback animated fadeInDown"
+                          : ""
+                      }
+                    >
+                      {errorMessage}
+                    </div>
                   </div>
                   {diff && (
                     <p>
