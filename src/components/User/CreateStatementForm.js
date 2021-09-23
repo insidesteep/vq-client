@@ -64,6 +64,7 @@ const CreateStatementForm = () => {
                   className="form-control form-control-sm"
                   placeholder="Кому"
                   disables={loading}
+                  defaultValue={leaders && leaders[0]?._id}
                 >
                   {leaders.map((leader) => (
                     <option key={leader._id} value={leader._id}>

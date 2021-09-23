@@ -16,15 +16,21 @@ import {
   AUTH_START,
   AUTH_SUCCESS,
   AUTH_FAILURE,
+  SEND_MESSAGE_START,
+  SEND_SMS_CODE_START,
+  SEND_SMS_CODE_SUCCESS,
+  SEND_SMS_CODE_FAILURE,
+  CLEAR_SMS_TOKEN,
 } from "../types";
 
 const initialState = {
   user: null,
   token: null,
   isAuth: false,
-  smsToken: null,
   loggedIn: false,
   loading: true,
+  smsCodeError: "",
+  smsLoading: false,
   error: "",
   smsVerify: { smsToken: null, recipient: null },
 };
@@ -33,6 +39,35 @@ const authReducer = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case CLEAR_SMS_TOKEN:
+      return {
+        ...state,
+        smsCodeError: "",
+        smsLoading: false,
+        smsVerify: { smsToken: null, recipient: null },
+      };
+    case SEND_SMS_CODE_START:
+      return {
+        ...state,
+        smsLoading: true,
+        smsCodeError: "",
+      };
+
+    case SEND_SMS_CODE_SUCCESS:
+      return {
+        ...state,
+        smsLoading: false,
+        smsVerify: { smsToken: null, recipient: null },
+        smsCodeError: "",
+      };
+
+    case SEND_SMS_CODE_FAILURE:
+      return {
+        ...state,
+        smsLoading: false,
+        smsCodeError: payload,
+      };
+
     case AUTH_START:
       return {
         ...state,
@@ -60,7 +95,6 @@ const authReducer = (state = initialState, action) => {
       return {
         user: null,
         token: null,
-        smsToken: null,
         loggedIn: false,
         loading: false,
         error: "",
@@ -93,7 +127,6 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: null,
         token: null,
-        smsToken: null,
         loggedIn: false,
         loading: false,
         error: payload,

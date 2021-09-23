@@ -8,8 +8,8 @@ const Spinner = () => {
           cy="50"
           r="20"
           fill="none"
-          stroke-width="3"
-          stroke-miterlimit="10"
+          strokeWidth="3"
+          strokeMiterlimit="10"
         />
       </svg>
     </div>

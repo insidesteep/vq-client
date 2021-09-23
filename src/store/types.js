@@ -80,6 +80,8 @@ export const SEND_SMS_CODE_START = "SEND_SMS_CODE_START";
 export const SEND_SMS_CODE_SUCCESS = "SEND_SMS_CODE_SUCCESS";
 export const SEND_SMS_CODE_FAILURE = "SEND_SMS_CODE_FAILURE";
 
+export const CLEAR_SMS_TOKEN = "CLEAR_SMS_TOKEN";
+
 /*****************************    MESSAGE TYPES     *********************/
 
 export const GET_MESSAGES_START = "GET_MESSAGES_START";

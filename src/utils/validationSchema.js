@@ -1,5 +1,12 @@
 import * as yup from "yup";
 
+export const unlockSchema = yup.object().shape({
+  password: yup
+    .string()
+    .min(6, "Пароль должен содержать минимум 6 символов")
+    .required("Введите пароль"),
+});
+
 export const loginSchema = yup.object().shape({
   email: yup
     .string()
@@ -75,6 +82,9 @@ export const createStatementSchema = yup
         /^[+]?998(9[012345789]|6[125679]|7[01234569])[0-9]{7}$/,
         "Номер телефона не правильный"
       )
+      .transform((value) => {
+        return value.includes("+") ? value.slice(1) : value;
+      })
       .required("Введите номер телефона"),
     email: yup
       .string()

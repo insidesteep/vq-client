@@ -1,43 +1,42 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
-import { sendSmsCode } from "../store/actions/auth";
+import { sendSmsCode, clearSmsToken } from "../store/actions/auth";
 import { useState, useEffect } from "react";
 import moment from "moment";
 import Alert from "../components/Alert";
+import Spinner from "../components/layouts/Spinner";
 
 const SMSVerify = () => {
   const [smsCode, setSmsCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [diff, setDiff] = useState("");
-  const { smsVerify, error } = useSelector((state) => state.auth);
+  const { smsVerify, smsCodeError, smsLoading } = useSelector(
+    (state) => state.auth
+  );
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     if (smsVerify.smsToken) {
       const decoded = JSON.parse(atob(smsVerify.smsToken.split(".")[1]));
 
-      setInterval(() => {
+      const interval = setInterval(() => {
         const diff = decoded.exp * 1000 - Date.now();
-        setDiff(diff);
+
+        if (diff <= 0) {
+          setDiff("");
+        } else {
+          setDiff(diff);
+        }
       }, 1000);
+      return () => clearInterval(interval);
     }
   }, []);
 
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-
-    if (smsCode.length < 5) {
-      setErrorMessage("Код должен состоять только из 5-цифр");
-    } else {
-      dispatch(sendSmsCode(smsCode, smsVerify.smsToken));
-      setErrorMessage("");
-    }
+  const submit = (smsCode) => {
+    dispatch(sendSmsCode(smsCode, smsVerify.smsToken));
   };
-
-  if (!smsVerify.smsToken) {
-    return <Redirect to="/" />;
-  }
 
   const handleChange = (e) => {
     const value = e.target.value.replace(/[^\d]/g, "");
@@ -46,10 +45,20 @@ const SMSVerify = () => {
       setErrorMessage("Код должен состоять только из 5-цифр");
     } else {
       setErrorMessage("");
+      submit(value);
     }
 
     setSmsCode(value);
   };
+
+  const back = () => {
+    dispatch(clearSmsToken());
+  };
+
+  console.log(smsVerify.smsToken);
+  if (!smsVerify.smsToken) {
+    return <Redirect to="/" />;
+  }
 
   return (
     <div
@@ -61,21 +70,26 @@ const SMSVerify = () => {
       }}
     >
       <div className="container row d-flex flex-column align-items-center">
-        {error && <Alert type="danger" text={error} />}
-        <div className="card p-5">
+        {smsCodeError && <Alert type="danger" text={smsCodeError} />}
+        <div className="card p-2">
           <div className="card-body">
+            {smsLoading && <Spinner />}
             <div className="row">
               <div className="col d-flex flex-column align-items-center mb-3">
-                <h3 className="title mb-5">Для продолжения подтвердите код</h3>
-                <p>Мы отправили СМС на номер +{smsVerify.recipient}</p>
+                <h4 className="title text-center mb-3">
+                  Для продолжения подтвердите код
+                </h4>
+                <p className="text-center">
+                  Мы отправили СМС на номер +{smsVerify.recipient}
+                </p>
               </div>
             </div>
-            <form className="form-valide" onSubmit={onSubmitHandler}>
+            <form className="form-valide">
               <div className="row">
                 <div className="col d-flex flex-column align-items-center">
                   <div className="form-group row is-invalid d-flex flex-column align-items-center">
                     <input
-                      className="form-control px-2"
+                      className="form-control rounded px-2"
                       style={{
                         fontSize: "20px",
                         letterSpacing: "8px",
@@ -86,8 +100,9 @@ const SMSVerify = () => {
                       name="smsCode"
                       minLength="5"
                       maxLength="5"
-                      onChange={handleChange}
+                      disabled={smsLoading || !diff}
                       value={smsCode}
+                      onChange={handleChange}
                     />
                     <div
                       style={{ display: "block" }}
@@ -100,11 +115,16 @@ const SMSVerify = () => {
                       {errorMessage}
                     </div>
                   </div>
-                  {diff && (
-                    <p>
-                      Вы можете отправить код повторно через{" "}
-                      {moment(diff).format("mm:ss")}
-                    </p>
+                  {diff ? (
+                    <p>Код устареет через {moment(diff).format("mm:ss")}</p>
+                  ) : (
+                    <button
+                      className="btn btn-primary"
+                      type="button"
+                      onClick={back}
+                    >
+                      Назад
+                    </button>
                   )}
                 </div>
               </div>

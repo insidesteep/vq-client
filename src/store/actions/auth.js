@@ -18,7 +18,14 @@ import {
   AUTH_START,
   AUTH_SUCCESS,
   AUTH_FAILURE,
+  CLEAR_SMS_TOKEN,
 } from "../types";
+
+export const clearSmsToken = () => {
+  return {
+    type: CLEAR_SMS_TOKEN,
+  };
+};
 
 const authStart = () => {
   return {
@@ -268,10 +275,9 @@ const sendSmsCodeStart = () => {
   };
 };
 
-const sendSmsCodeSuccess = (data) => {
+const sendSmsCodeSuccess = () => {
   return {
     type: SEND_SMS_CODE_SUCCESS,
-    payload: data,
   };
 };
 
@@ -304,6 +310,6 @@ export const sendSmsCode = (smsCode, smsToken) => {
       return dispatch(sendSmsCodeFailure(data.error));
     }
 
-    dispatch(sendSmsCodeSuccess(data));
+    dispatch(sendSmsCodeSuccess());
   };
 };

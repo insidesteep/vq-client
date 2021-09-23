@@ -64,8 +64,6 @@ const MainPage = () => {
 
   const onSubmitHandlerForNotAuth = async (data) => {
     dispatch(verifySMS(data));
-    // reset();
-    // history.push("/sms-verify");
   };
 
   const onSubmitHandlerForAuth = async (data) => {
@@ -123,6 +121,7 @@ const MainPage = () => {
                                 id="leader"
                                 name="leader"
                                 className="form-control valid"
+                                defaultValue={leaders && leaders[0]?._id}
                               >
                                 {leaders.map((leader) => (
                                   <option key={leader._id} value={leader._id}>
@@ -383,6 +382,7 @@ const MainPage = () => {
                                 id="leader"
                                 name="leader"
                                 className="form-control valid"
+                                defaultValue={leaders && leaders[0]?._id}
                               >
                                 {leaders.map((leader) => (
                                   <option key={leader._id} value={leader._id}>
