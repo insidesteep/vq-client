@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import { sendSmsCode, clearSmsToken } from "../store/actions/auth";
 import { useState, useEffect } from "react";
+import jwtDecode from "jwt-decode";
 import moment from "moment";
 import Alert from "../components/Alert";
 import Spinner from "../components/layouts/Spinner";
@@ -19,7 +20,8 @@ const SMSVerify = () => {
 
   useEffect(() => {
     if (smsVerify.smsToken) {
-      const decoded = JSON.parse(atob(smsVerify.smsToken.split(".")[1]));
+      console.log("VERIFY", smsVerify);
+      const decoded = jwtDecode(smsVerify.smsToken);
 
       const interval = setInterval(() => {
         const diff = decoded.exp * 1000 - Date.now();
