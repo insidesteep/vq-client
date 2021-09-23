@@ -19,6 +19,9 @@ import {
   AUTH_SUCCESS,
   AUTH_FAILURE,
   CLEAR_SMS_TOKEN,
+  GET_FILE_BY_ID_START,
+  GET_FILE_BY_ID_SUCCESS,
+  GET_FILE_BY_ID_FAILURE,
 } from "../types";
 
 export const clearSmsToken = () => {

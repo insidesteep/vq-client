@@ -1,34 +1,31 @@
+import { useDispatch, useSelector } from "react-redux";
+import { getFileById } from "../store/actions/file";
+import Toast from "./Toast";
+
 const File = ({ file }) => {
+  const dispatch = useDispatch();
+  const { error } = useSelector((state) => state.file);
+
   const onDownload = async (e) => {
     e.preventDefault();
-
-    const response = await fetch(
-      `http://localhost:5000/api/files/download/${file._id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
-
-    if (response.status === 200) {
-      const blob = await response.blob();
-      const downloadUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = downloadUrl;
-      link.download = file.originalName;
-      // document.appendChild(link);
-      link.click();
-      link.remove();
-    }
+    dispatch(getFileById(file._id));
   };
 
   return (
-    <div className="col-auto">
-      <a className="text-muted" onClick={onDownload}>
-        {file.originalName}
-      </a>
-    </div>
+    <>
+      <div className="col-auto">
+        <a className="text-muted" onClick={onDownload}>
+          {file.originalName}
+        </a>
+      </div>
+      {error && (
+        <Toast
+          type="error"
+          title="Скачивание файла"
+          message="При скачивании файла произошла ошибка"
+        />
+      )}
+    </>
   );
 };
 

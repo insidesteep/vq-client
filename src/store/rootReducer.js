@@ -5,6 +5,7 @@ import sidebar from "./reducers/sidebar";
 import dashboard from "./reducers/dashboard";
 import auth from "./reducers/auth";
 import message from "./reducers/message";
+import file from "./reducers/file";
 
 export default combineReducers({
   statement,
@@ -13,4 +14,5 @@ export default combineReducers({
   dashboard,
   auth,
   message,
+  file,
 });
