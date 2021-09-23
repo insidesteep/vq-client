@@ -15,6 +15,7 @@ import {
 const initialState = {
   data: [],
   msgNotificationData: [],
+  successNotify: fasle,
   message: null,
   loading: false,
   error: "",
@@ -34,6 +35,7 @@ const messageReducer = (state = initialState, action) => {
     case NEW_MESSAGE_NOTIFICATION:
       return {
         ...state,
+        successNotify: true,
         msgNotificationData: [...state.msgNotificationData, payload],
         data: [payload, ...state.data],
       };

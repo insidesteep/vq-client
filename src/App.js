@@ -38,7 +38,8 @@ let socket = io("https://vq-server2.herokuapp.com");
 
 function App() {
   const { user, isAuth, loading } = useSelector((state) => state.auth);
-  const { successNotify } = useSelector((state) => state.statement);
+  const statementState = useSelector((state) => state.statement);
+  const messageState = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
   console.log(loading);
@@ -82,11 +83,18 @@ function App() {
   return (
     <Router>
       {user && user.isLockProfile && <Redirect to="/dashboard/lock" />}
-      {successNotify && (
+      {statementState.successNotify && (
         <Toast
           type="info"
           title="Новое уведомление"
           message="Пришло новое заявленее"
+        />
+      )}
+      {messageState.successNotify && (
+        <Toast
+          type="info"
+          title="Новое сообщение"
+          message="Пришло новое сообщение"
         />
       )}
 
