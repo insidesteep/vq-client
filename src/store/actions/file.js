@@ -13,10 +13,10 @@ const getFileByIdFailure = (error) => {
   };
 };
 
-export const getFileById = (fileID) => {
+export const getFileById = (file) => {
   return async (dispatch) => {
     const response = await fetch(
-      `https://vq-server2.herokuapp.com/api/files/download/${fileID}`,
+      `https://vq-server2.herokuapp.com/api/files/download/${file._id}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -33,11 +33,8 @@ export const getFileById = (fileID) => {
       // document.appendChild(link);
       link.click();
       link.remove();
-    }
-
-    const data = await response.json();
-
-    if (!response.ok) {
+    } else {
+      const data = await response.json();
       return dispatch(getFileByIdFailure(data.error));
     }
 

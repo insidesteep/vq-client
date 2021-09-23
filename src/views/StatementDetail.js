@@ -113,7 +113,7 @@ const StatementDetail = () => {
                             <p className="text-warning">
                               Примечание: После отправки сообщения статус
                               заявление перейдёт в{" "}
-                              <span class="badge badge-success">Завершена</span>
+                              <span className="badge badge-success">Завершена</span>
                             </p>
                             <div className="form-group row is-invalid">
                               <label

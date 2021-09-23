@@ -8,13 +8,13 @@ const File = ({ file }) => {
 
   const onDownload = async (e) => {
     e.preventDefault();
-    dispatch(getFileById(file._id));
+    dispatch(getFileById(file));
   };
 
   return (
     <>
       <div className="col-auto">
-        <a className="text-muted" onClick={onDownload}>
+        <a className="text-muted file" onClick={onDownload}>
           {file.originalName}
         </a>
       </div>

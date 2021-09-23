@@ -48,10 +48,10 @@ const UserProfile = () => {
               <div className="card">
                 <div className="card-body">
                   <div className="row">
-                    <div class="col-12 col-md-2 mb-4">
+                    <div className="col-12 col-md-2 mb-4">
                       <UserNav />
                     </div>
-                    <div class="col-12 col-md-10 mb-4">
+                    <div className="col-12 col-md-10 mb-4">
                       <div className="email-right-box">
                         <TransitionGroup>
                           <CSSTransition
