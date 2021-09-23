@@ -10,12 +10,13 @@ import {
   GET_MY_MESSAGE_BY_ID_FAILURE,
   NEW_MESSAGE_NOTIFICATION,
   SET_MSG_NOTIFICATIONS_FROM_LOCALSTORAGE,
+  CLEAR_MESSAGE_NOTIFICATION,
 } from "../types";
 
 const initialState = {
   data: [],
   msgNotificationData: [],
-  successNotify: fasle,
+  successNotify: false,
   message: null,
   loading: false,
   error: "",
@@ -26,6 +27,9 @@ const messageReducer = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case CLEAR_MESSAGE_NOTIFICATION:
+      return { ...state, successNotify: false };
+
     case SET_MSG_NOTIFICATIONS_FROM_LOCALSTORAGE:
       return {
         ...state,

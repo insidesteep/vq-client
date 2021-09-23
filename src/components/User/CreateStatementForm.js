@@ -20,7 +20,7 @@ const CreateStatementForm = () => {
   });
 
   const { leaders } = useSelector((state) => state.user);
-  const { loading, success } = useSelector((state) => state.statement);
+  const { loading, successNotify } = useSelector((state) => state.statement);
 
   const dispatch = useDispatch();
 
@@ -169,7 +169,7 @@ const CreateStatementForm = () => {
           </>
         )}
       </div>
-      {!loading && success && (
+      {!loading && successNotify && (
         <Toast
           type="success"
           title="Создание заявления"

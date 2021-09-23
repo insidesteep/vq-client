@@ -10,7 +10,15 @@ import {
   GET_MY_MESSAGE_BY_ID_FAILURE,
   NEW_MESSAGE_NOTIFICATION,
   SET_MSG_NOTIFICATIONS_FROM_LOCALSTORAGE,
+  CLEAR_MESSAGE_NOTIFICATION,
 } from "../types";
+
+
+export const clearMessageNotification = () => {
+  return {
+    type: CLEAR_MESSAGE_NOTIFICATION,
+  };
+};
 
 const sendMessageStart = () => {
   return {

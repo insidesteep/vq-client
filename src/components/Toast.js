@@ -1,4 +1,7 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { clearMessageNotification } from "../store/actions/message";
+import { clearStatementNotification } from "../store/actions/statement";
 
 const Toast = ({
   title = "Title",
@@ -9,12 +12,17 @@ const Toast = ({
   const [progress, setProgress] = useState(100);
   const [show, setShow] = useState(true);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (show && progress > 0) {
       setTimeout(() => {
         setProgress(progress - 5);
         console.log(2);
       }, 200);
+    } else {
+      dispatch(clearMessageNotification());
+      dispatch(clearStatementNotification());
     }
   }, [progress]);
 

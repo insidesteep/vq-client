@@ -87,7 +87,7 @@ function App() {
         <Toast
           type="info"
           title="Новое уведомление"
-          message="Пришло новое заявленее"
+          message="Пришло новое заявление"
         />
       )}
       {messageState.successNotify && (

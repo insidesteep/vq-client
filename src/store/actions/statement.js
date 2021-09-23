@@ -1,5 +1,6 @@
 import {
   CHANGE_STATEMENT,
+  CLEAR_STATEMENT_NOTIFICATION,
   CREATE_STATEMENT_FAILURE,
   CREATE_STATEMENT_START,
   CREATE_STATEMENT_SUCCESS,
@@ -18,6 +19,12 @@ import {
   NEW_STATEMENT_NOTIFICATION,
   SET_NOTIFICATIONS_FROM_LOCALSTORAGE,
 } from "../types";
+
+export const clearStatementNotification = () => {
+  return {
+    type: CLEAR_STATEMENT_NOTIFICATION,
+  };
+};
 
 export const changeStatement = () => {
   return {
@@ -96,11 +103,14 @@ const getStatementByIdFailure = (error) => {
 export const getStatementById = (id) => {
   return async (dispatch) => {
     dispatch(getStatementByIdStart());
-    const response = await fetch(`https://vq-server2.herokuapp.com/api/statements/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await fetch(
+      `https://vq-server2.herokuapp.com/api/statements/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
 
     const data = await response.json();
 
@@ -258,12 +268,15 @@ export const getMyStatements = (id) => {
   return async (dispatch) => {
     dispatch(getMyStatementsStart());
 
-    const response = await fetch(`https://vq-server2.herokuapp.com/api/statements/my`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `https://vq-server2.herokuapp.com/api/statements/my`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     const data = await response.json();
 

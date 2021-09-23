@@ -1,5 +1,6 @@
 import {
   CHANGE_STATEMENT,
+  CLEAR_STATEMENT_NOTIFICATION,
   CREATE_STATEMENT_FAILURE,
   CREATE_STATEMENT_START,
   CREATE_STATEMENT_SUCCESS,
@@ -34,6 +35,8 @@ const statementReducer = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case CLEAR_STATEMENT_NOTIFICATION:
+      return { ...state, successNotify: false };
     case CHANGE_STATEMENT:
       return {
         ...state,
@@ -120,6 +123,7 @@ const statementReducer = (state = initialState, action) => {
         ...state,
         loading: true,
         success: false,
+        successNotify: false,
         error: "",
       };
 
@@ -128,6 +132,7 @@ const statementReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         success: true,
+        successNotify: true,
         error: "",
       };
 
@@ -137,6 +142,7 @@ const statementReducer = (state = initialState, action) => {
         loading: false,
         error: payload,
         success: false,
+        successNotify: false,
       };
 
     case GET_MY_STATEMENT_BY_ID_START:
