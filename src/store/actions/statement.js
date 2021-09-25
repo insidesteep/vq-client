@@ -13,12 +13,30 @@ import {
   GET_MY_STATEMENT_BY_ID_FAILURE,
   GET_MY_STATEMENT_BY_ID_START,
   GET_MY_STATEMENT_BY_ID_SUCCESS,
+  GET_NEW_STATEMENTS,
   GET_STATEMENT_BY_ID_FAILURE,
   GET_STATEMENT_BY_ID_START,
   GET_STATEMENT_BY_ID_SUCCESS,
-  NEW_STATEMENT_NOTIFICATION,
-  SET_NOTIFICATIONS_FROM_LOCALSTORAGE,
+  SET_STATEMENT,
 } from "../types";
+
+export const getNewStatements = () => {
+  return async (dispatch) => {
+    const response = await fetch(`https://vq-server2.herokuapp.com/api/statements/new`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return console.error(data.error);
+    }
+
+    dispatch({ type: GET_NEW_STATEMENTS, payload: data });
+  };
+};
 
 export const clearStatementNotification = () => {
   return {
@@ -83,12 +101,12 @@ const getStatementByIdStart = () => {
   };
 };
 
-const getStatementByIdSuccess = (data, stId) => {
+const getStatementByIdSuccess = (data, id) => {
   return {
     type: GET_STATEMENT_BY_ID_SUCCESS,
     payload: {
       data,
-      stId,
+      id,
     },
   };
 };
@@ -122,25 +140,10 @@ export const getStatementById = (id) => {
   };
 };
 
-export const newStatementNotification = (newStatementData) => {
-  if (localStorage.getItem("notifications")) {
-    const notifications = JSON.parse(localStorage.getItem("notifications"));
-    notifications.push(newStatementData);
-    localStorage.setItem("notifications", JSON.stringify(notifications));
-  } else {
-    localStorage.setItem("notifications", JSON.stringify([newStatementData]));
-  }
-
+export const setStatement = (newStatementData) => {
   return {
-    type: NEW_STATEMENT_NOTIFICATION,
+    type: SET_STATEMENT,
     payload: newStatementData,
-  };
-};
-
-export const setNotificationFromLocalstorage = (data) => {
-  return {
-    type: SET_NOTIFICATIONS_FROM_LOCALSTORAGE,
-    payload: data,
   };
 };
 

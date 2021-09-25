@@ -8,14 +8,14 @@ import {
   GET_MY_MESSAGE_BY_ID_START,
   GET_MY_MESSAGE_BY_ID_SUCCESS,
   GET_MY_MESSAGE_BY_ID_FAILURE,
-  NEW_MESSAGE_NOTIFICATION,
-  SET_MSG_NOTIFICATIONS_FROM_LOCALSTORAGE,
   CLEAR_MESSAGE_NOTIFICATION,
+  SET_MESSAGE,
+  GET_NEW_MESSAGES,
 } from "../types";
 
 const initialState = {
   data: [],
-  msgNotificationData: [],
+  newMessages: [],
   successNotify: false,
   message: null,
   loading: false,
@@ -27,21 +27,21 @@ const messageReducer = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case GET_NEW_MESSAGES:
+      return {
+        ...state,
+        newMessages: payload,
+      };
+
     case CLEAR_MESSAGE_NOTIFICATION:
       return { ...state, successNotify: false };
 
-    case SET_MSG_NOTIFICATIONS_FROM_LOCALSTORAGE:
-      return {
-        ...state,
-        msgNotificationData: payload,
-      };
-
-    case NEW_MESSAGE_NOTIFICATION:
+    case SET_MESSAGE:
       return {
         ...state,
         successNotify: true,
-        msgNotificationData: [...state.msgNotificationData, payload],
         data: [payload, ...state.data],
+        newMessages: [payload, ...state.newMessages],
       };
     case SEND_MESSAGE_START:
       return {
@@ -94,23 +94,12 @@ const messageReducer = (state = initialState, action) => {
         error: "",
       };
     case GET_MY_MESSAGE_BY_ID_SUCCESS:
-      if (localStorage.getItem("messages")) {
-        const msgs = JSON.parse(localStorage.getItem("messages"));
-
-        const filtred = msgs.filter((m) => m._id != payload.msgId);
-        localStorage.setItem("messages", JSON.stringify(filtred));
-      }
-
-      const messages = state.msgNotificationData.filter(
-        (msg) => msg._id != payload.msgId
-      );
-
       return {
         ...state,
         loading: false,
         error: "",
         message: payload.data,
-        msgNotificationData: messages,
+        newMessages: state.newMessages.filter(msg => msg._id !== payload.id)
       };
     case GET_MY_MESSAGE_BY_ID_FAILURE:
       return {

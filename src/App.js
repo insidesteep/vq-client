@@ -11,14 +11,8 @@ import {
 import Dashboard from "./views/Dashboard";
 import StatementDetail from "./views/StatementDetail";
 import Statements from "./views/Statements";
-import {
-  setNotificationFromLocalstorage,
-  newStatementNotification,
-} from "./store/actions/statement";
-import {
-  newMessageNotification,
-  setMsgNotificationFromLocalstorage,
-} from "./store/actions/message";
+import { setStatement } from "./store/actions/statement";
+import { setMessage } from "./store/actions/message";
 import { auth, logout } from "./store/actions/auth";
 import Users from "./views/Users";
 import UserInfo from "./views/UserInfo";
@@ -45,18 +39,6 @@ function App() {
   console.log(loading);
   useEffect(() => {
     dispatch(auth());
-
-    if (localStorage.getItem("notifications")) {
-      const notifications = JSON.parse(localStorage.getItem("notifications"));
-      console.log(notifications);
-      dispatch(setNotificationFromLocalstorage(notifications));
-    }
-
-    if (localStorage.getItem("messages")) {
-      const messages = JSON.parse(localStorage.getItem("messages"));
-      console.log(messages);
-      dispatch(setMsgNotificationFromLocalstorage(messages));
-    }
   }, []);
 
   useEffect(() => {
@@ -68,14 +50,14 @@ function App() {
         const audio = new Audio("http://gget.it/u1urz3zh/popsound.mp3");
         audio.play();
         console.log(audio);
-        dispatch(newStatementNotification(st));
+        dispatch(setStatement(st));
       });
 
       socket.on("message:new", (msg) => {
         const audio = new Audio("http://gget.it/u1urz3zh/popsound.mp3");
         audio.play();
         console.log(audio);
-        dispatch(newMessageNotification(msg));
+        dispatch(setMessage(msg));
       });
     }
   }, [user]);

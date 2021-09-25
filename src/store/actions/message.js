@@ -8,11 +8,28 @@ import {
   GET_MY_MESSAGE_BY_ID_START,
   GET_MY_MESSAGE_BY_ID_SUCCESS,
   GET_MY_MESSAGE_BY_ID_FAILURE,
-  NEW_MESSAGE_NOTIFICATION,
-  SET_MSG_NOTIFICATIONS_FROM_LOCALSTORAGE,
   CLEAR_MESSAGE_NOTIFICATION,
+  SET_MESSAGE,
+  GET_NEW_MESSAGES,
 } from "../types";
 
+export const getNewMessages = () => {
+  return async (dispatch) => {
+    const response = await fetch(`https://vq-server2.herokuapp.com/api/messages/new`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      return console.error(data.error);
+    }
+
+    dispatch({ type: GET_NEW_MESSAGES, payload: data });
+  };
+};
 
 export const clearMessageNotification = () => {
   return {
@@ -43,18 +60,21 @@ const sendMessageFailure = (error) => {
 export const sendMessage = ({ to, statementId, message }) => {
   return async (dispatch) => {
     dispatch(sendMessageStart());
-    const response = await fetch(`https://vq-server2.herokuapp.com/api/messages/send`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        to,
-        statementId,
-        message,
-      }),
-    });
+    const response = await fetch(
+      `https://vq-server2.herokuapp.com/api/messages/send`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          to,
+          statementId,
+          message,
+        }),
+      }
+    );
 
     const data = await response.json();
 
@@ -89,11 +109,14 @@ const getMessagesFailure = (error) => {
 export const getMessages = () => {
   return async (dispatch) => {
     dispatch(getMessagesStart());
-    const response = await fetch(`https://vq-server2.herokuapp.com/api/messages`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await fetch(
+      `https://vq-server2.herokuapp.com/api/messages`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
 
     const data = await response.json();
 
@@ -111,12 +134,12 @@ const getMyMessageByIdStart = () => {
   };
 };
 
-const getMyMessageByIdSuccess = (data, msgId) => {
+const getMyMessageByIdSuccess = (data, id) => {
   return {
     type: GET_MY_MESSAGE_BY_ID_SUCCESS,
     payload: {
       data,
-      msgId,
+      id,
     },
   };
 };
@@ -131,11 +154,14 @@ const getMyMessageByIdFailure = (error) => {
 export const getMyMessageById = (id) => {
   return async (dispatch) => {
     dispatch(getMyMessageByIdStart());
-    const response = await fetch(`https://vq-server2.herokuapp.com/api/messages/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await fetch(
+      `https://vq-server2.herokuapp.com/api/messages/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
 
     const data = await response.json();
 
@@ -147,24 +173,9 @@ export const getMyMessageById = (id) => {
   };
 };
 
-export const newMessageNotification = (newMessageData) => {
-  if (localStorage.getItem("messages")) {
-    const messages = JSON.parse(localStorage.getItem("messages"));
-    messages.push(newMessageData);
-    localStorage.setItem("messages", JSON.stringify(messages));
-  } else {
-    localStorage.setItem("messages", JSON.stringify([newMessageData]));
-  }
-
+export const setMessage = (newMessageData) => {
   return {
-    type: NEW_MESSAGE_NOTIFICATION,
+    type: SET_MESSAGE,
     payload: newMessageData,
-  };
-};
-
-export const setMsgNotificationFromLocalstorage = (data) => {
-  return {
-    type: SET_MSG_NOTIFICATIONS_FROM_LOCALSTORAGE,
-    payload: data,
   };
 };

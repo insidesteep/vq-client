@@ -3,13 +3,27 @@ import { Link, useLocation } from "react-router-dom";
 
 import { toggleSidebar } from "../../store/actions/sidebar";
 import { lockProfile, logout } from "../../store/actions/auth";
+import { getNewStatements } from "../../store/actions/statement";
+import { getNewMessages } from "../../store/actions/message";
+import { useEffect, useState } from "react";
 
 const Header = () => {
-  const { notificationData } = useSelector((state) => state.statement);
-  const { msgNotificationData } = useSelector((state) => state.message);
+  const { newStatements } = useSelector((state) => state.statement);
+  const { newMessages } = useSelector((state) => state.message);
   const { user, isAuth } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
+
+
+  useEffect(() => {
+    if (isAuth && user.role === "leader") {
+      dispatch(getNewStatements());
+    }
+
+    if (isAuth && user.role === "user") {
+      dispatch(getNewMessages());
+    }
+  }, []);
 
   const handleMenu = () => {
     dispatch(toggleSidebar());
@@ -70,22 +84,22 @@ const Header = () => {
                   <>
                     <a href="#!" data-toggle="dropdown" className="log-user">
                       <i className={`mdi mdi-bell-outline`}></i>
-                      {notificationData.length > 0 && (
+                      {newStatements.length > 0 && (
                         <span className="badge badge-pill gradient-2">
-                          {notificationData.length}
+                          {newStatements.length}
                         </span>
                       )}
                     </a>
                     <div className="drop-down animated fadeIn dropdown-menu">
                       <div className="dropdown-content-heading d-flex justify-content-between">
-                        {notificationData.length === 0 ? (
+                        {newStatements.length === 0 ? (
                           <span className="">Нет новых заявлений</span>
                         ) : (
                           <>
                             <span className="">Новые заявления</span>
                             <a href="#!" className="d-inline-block">
                               <span className="badge badge-pill gradient-2">
-                                {notificationData.length}
+                                {newStatements.length}
                               </span>
                             </a>
                           </>
@@ -93,7 +107,7 @@ const Header = () => {
                       </div>
                       <div className="dropdown-content-body">
                         <ul>
-                          {notificationData.map(
+                          {newStatements.map(
                             ({ _id, name, theme, message, owner }) => (
                               <li className="notification-unread" key={_id}>
                                 <Link to={`/dashboard/statements/${_id}`}>
@@ -121,22 +135,22 @@ const Header = () => {
                     {" "}
                     <a href="#!" data-toggle="dropdown" className="log-user">
                       <i className={`mdi mdi-email-outline`}></i>
-                      {msgNotificationData.length > 0 && (
+                      {newMessages.length > 0 && (
                         <span className="badge badge-pill gradient-2">
-                          {msgNotificationData.length}
+                          {newMessages.length}
                         </span>
                       )}
                     </a>
                     <div className="drop-down animated fadeIn dropdown-menu">
                       <div className="dropdown-content-heading d-flex justify-content-between">
-                        {msgNotificationData.length === 0 ? (
+                        {newMessages.length === 0 ? (
                           <span className="">Нет новых сообщений</span>
                         ) : (
                           <>
                             <span className="">Новые сообщения</span>
                             <a href="#!" className="d-inline-block">
                               <span className="badge badge-pill gradient-2">
-                                {msgNotificationData.length}
+                                {newMessages.length}
                               </span>
                             </a>
                           </>
@@ -144,7 +158,7 @@ const Header = () => {
                       </div>
                       <div className="dropdown-content-body">
                         <ul>
-                          {msgNotificationData.map(
+                          {newMessages.map(
                             ({ _id, statement, message, owner }) => (
                               <li className="notification-unread" key={_id}>
                                 <Link to={`/profile/inbox/${_id}`}>

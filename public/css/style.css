@@ -10530,6 +10530,11 @@ sub {
   color: #7571f9;
 }
 
+.dropdown-content-body {
+  max-height: 30vh;
+  overflow-y: auto;
+}
+
 .dropdown-content-body ul {
   padding: 0 1.25rem;
   background-color: #fff;
@@ -21551,7 +21556,7 @@ html[dir="rtl"]
 }
 
 .toast-error {
-    background-color: #BD362F;
+  background-color: #bd362f;
 }
 
 #toast-container > div {
@@ -21653,7 +21658,6 @@ button.toast-close-button {
 
   transition: all 0.3s ease-in;
 }
-
 
 .file {
   cursor: pointer;

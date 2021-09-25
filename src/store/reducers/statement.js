@@ -13,18 +13,18 @@ import {
   GET_MY_STATEMENT_BY_ID_FAILURE,
   GET_MY_STATEMENT_BY_ID_START,
   GET_MY_STATEMENT_BY_ID_SUCCESS,
+  GET_NEW_STATEMENTS,
   GET_STATEMENT_BY_ID_FAILURE,
   GET_STATEMENT_BY_ID_START,
   GET_STATEMENT_BY_ID_SUCCESS,
-  NEW_STATEMENT_NOTIFICATION,
-  SET_NOTIFICATIONS_FROM_LOCALSTORAGE,
+  SET_STATEMENT,
 } from "../types";
 
 const initialState = {
   data: [],
+  newStatements: [],
   size: 0,
   statement: null,
-  notificationData: [],
   successNotify: false,
   loading: false,
   error: "",
@@ -35,6 +35,12 @@ const statementReducer = (state = initialState, action) => {
   const { type, payload } = action;
 
   switch (type) {
+    case GET_NEW_STATEMENTS:
+      return {
+        ...state,
+        newStatements: payload,
+      };
+
     case CLEAR_STATEMENT_NOTIFICATION:
       return { ...state, successNotify: false };
     case CHANGE_STATEMENT:
@@ -46,19 +52,12 @@ const statementReducer = (state = initialState, action) => {
         },
       };
 
-    case NEW_STATEMENT_NOTIFICATION:
+    case SET_STATEMENT:
       return {
         ...state,
         successNotify: true,
-        notificationData: [...state.notificationData, payload],
         data: [payload, ...state.data],
-      };
-
-    case SET_NOTIFICATIONS_FROM_LOCALSTORAGE:
-      return {
-        ...state,
-        notificationData: payload,
-        size: state.size + 1,
+        newStatements: [payload, ...state.newStatements],
       };
 
     case GET_STATEMENT_BY_ID_START:
@@ -69,23 +68,14 @@ const statementReducer = (state = initialState, action) => {
       };
 
     case GET_STATEMENT_BY_ID_SUCCESS:
-      if (localStorage.getItem("notifications")) {
-        const nts = JSON.parse(localStorage.getItem("notifications"));
-
-        const filtred = nts.filter((n) => n._id != payload.stId);
-        localStorage.setItem("notifications", JSON.stringify(filtred));
-      }
-
-      const notifications = state.notificationData.filter(
-        (nt) => nt._id != payload.stId
-      );
-
       return {
         ...state,
         loading: false,
         error: "",
         statement: payload.data,
-        notificationData: notifications,
+        newStatements: state.newStatements.filter(
+          (st) => st._id !== payload.id
+        ),
       };
 
     case GET_STATEMENT_BY_ID_FAILURE:
