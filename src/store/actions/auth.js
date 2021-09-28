@@ -43,10 +43,9 @@ const authSuccess = (data) => {
   };
 };
 
-const authFaulire = (err) => {
+const authFaulire = () => {
   return {
     type: AUTH_FAILURE,
-    payload: err,
   };
 };
 
@@ -248,7 +247,10 @@ export const verifySMS = (fields) => {
     formData.append("message", fields.message);
 
     if (fields.files.length) {
-      formData.append("files", fields.files);
+      console.log(fields.files);
+      for (let file of fields.files) {
+        formData.append("files", file);
+      }
     }
 
     const requestOptions = {
@@ -259,7 +261,7 @@ export const verifySMS = (fields) => {
     dispatch(verifySMSStart());
 
     const response = await fetch(
-      `https://vq-server2.herokuapp.com/api/sms/verify`,
+      `http://localhost:5000/api/sms/verify`,
       requestOptions
     );
 
@@ -295,17 +297,14 @@ export const sendSmsCode = (smsCode, smsToken) => {
   return async (dispatch) => {
     dispatch(sendSmsCodeStart());
 
-    const response = await fetch(
-      "https://vq-server2.herokuapp.com/api/sms/send-code",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${smsToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ smsCode }),
-      }
-    );
+    const response = await fetch("http://localhost:5000/api/sms/send-code", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${smsToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ smsCode }),
+    });
 
     const data = await response.json();
 

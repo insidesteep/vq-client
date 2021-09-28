@@ -30,15 +30,25 @@ const LockScreen = () => {
             <div className="row justify-content-center h-100">
               <div className="col-xl-6">
                 <div className="form-input-content">
-                  <div className="card login-form mb-0">
+                  <div className="card login-form mb-0 pt-4">
+                    <img
+                      src="/images/bsmilogo.png"
+                      style={{
+                        width: "80px",
+                        margin: "0 auto",
+                        position: "absolute",
+                        left: 0,
+                        right: 0,
+                        top: "-48px",
+                      }}
+                    />
                     <div className="card-body pt-4">
                       {error && <Alert type="danger" text={error} />}
-                      <h1 className="text-center">
-                        <i className="fa fa-lock"></i>
-                      </h1>
-                      <h6 className="text-center">
+
+                      <h3 className="text-center">{user && user.name}</h3>
+                      <p className="text-center">
                         Введите пароль для разблокировки
-                      </h6>
+                      </p>
                       <form
                         className="mt-5 mb-3 login-input"
                         method="POST"

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import { login } from "../store/actions/auth";
 import { loginSchema } from "../utils/validationSchema";
@@ -28,7 +28,6 @@ const Login = () => {
   );
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     if (isAuth && user.role === "leader") {
       console.log("vcc");
@@ -48,7 +47,6 @@ const Login = () => {
 
     reset();
   };
-
 
   console.log("loading", loading);
 
@@ -71,9 +69,25 @@ const Login = () => {
             <div className="row justify-content-center h-100">
               <div className="col-xl-6">
                 <div className="form-input-content">
-                  {error && <Alert type="danger" text={error} />}
                   <div className="card login-form mb-0">
+                    <Link
+                      to="/"
+                      style={{
+                        width: "80px",
+                        margin: "0 auto",
+                        position: "absolute",
+                        left: 0,
+                        right: 0,
+                        top: "-48px",
+                      }}
+                    >
+                      <img
+                        src="/images/bsmilogo.png"
+                        style={{ height: "100%", width: "100%" }}
+                      />
+                    </Link>
                     <div className="card-body pt-5">
+                      {error && <Alert type="danger" text={error} />}
                       <h4 className="text-center">Вход в систему</h4>
 
                       <form

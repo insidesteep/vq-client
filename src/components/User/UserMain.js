@@ -1,4 +1,4 @@
-const UserName = ({user}) => {
+const UserName = ({ user }) => {
   return (
     <>
       <div className="media align-items-center mb-4">
