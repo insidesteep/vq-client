@@ -261,7 +261,7 @@ export const verifySMS = (fields) => {
     dispatch(verifySMSStart());
 
     const response = await fetch(
-      `http://localhost:5000/api/sms/verify`,
+      `https://vq-server2.herokuapp.com/api/sms/verify`,
       requestOptions
     );
 
@@ -297,7 +297,7 @@ export const sendSmsCode = (smsCode, smsToken) => {
   return async (dispatch) => {
     dispatch(sendSmsCodeStart());
 
-    const response = await fetch("http://localhost:5000/api/sms/send-code", {
+    const response = await fetch("https://vq-server2.herokuapp.com/api/sms/send-code", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${smsToken}`,
